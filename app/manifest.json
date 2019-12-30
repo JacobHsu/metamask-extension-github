@@ -30,7 +30,7 @@
       "strict_min_version": "56.0"
     }
   },
-  "default_locale": "en",
+  "default_locale": "zh-TW",
   "background": {
     "scripts": [
       "chromereload.js",
@@ -64,14 +64,6 @@
       ],
       "run_at": "document_start",
       "all_frames": true
-    },
-    {
-      "matches": [
-        "*://connect.trezor.io/*/popup.html"
-      ],
-      "js": [
-        "vendor/trezor/content-script.js"
-      ]
     }
   ],
   "permissions": [
@@ -86,8 +78,7 @@
     "notifications"
   ],
   "web_accessible_resources": [
-    "inpage.js",
-    "phishing.html"
+    "inpage.js"
   ],
   "externally_connectable": {
     "matches": [

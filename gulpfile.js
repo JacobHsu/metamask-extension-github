@@ -49,10 +49,7 @@ function gulpParallel (...args) {
 }
 
 const browserPlatforms = [
-  'firefox',
   'chrome',
-  'brave',
-  'opera',
 ]
 const commonPlatforms = [
   // browser extensions
@@ -88,10 +85,10 @@ createCopyTasks('fonts', {
   source: './app/fonts/',
   destinations: commonPlatforms.map(platform => `./dist/${platform}/fonts`),
 })
-createCopyTasks('vendor', {
-  source: './app/vendor/',
-  destinations: commonPlatforms.map(platform => `./dist/${platform}/vendor`),
-})
+// createCopyTasks('vendor', {
+//   source: './app/vendor/',
+//   destinations: commonPlatforms.map(platform => `./dist/${platform}/vendor`),
+// })
 createCopyTasks('css', {
   source: './ui/app/css/output/',
   destinations: commonPlatforms.map(platform => `./dist/${platform}`),
@@ -278,9 +275,7 @@ gulp.task('copy',
 gulp.task('dev:copy',
   gulp.series(
     gulp.parallel(...copyDevTaskNames),
-    'manifest:dev',
-    'manifest:chrome',
-    'manifest:opera'
+    'manifest:chrome'
   )
 )
 
@@ -362,8 +357,7 @@ const buildJsFiles = [
   'inpage',
   'contentscript',
   'background',
-  'ui',
-  'phishing-detect',
+  'ui'
 ]
 
 // bundle tasks
@@ -402,7 +396,7 @@ function createTasksForBuildJsExtension ({ buildJsFiles, taskPrefix, devMode, te
   const buildPhase2 = nonInpageFiles
   const destinations = browserPlatforms.map(platform => `./dist/${platform}`)
   bundleTaskOpts = Object.assign({
-    buildSourceMaps: true,
+    buildSourceMaps: false, // true
     sourceMapDir: '../sourcemaps',
     minifyBuild: !devMode,
     buildWithFullPaths: devMode,
@@ -466,6 +460,8 @@ gulp.task('dev:extension',
     'clean',
     'dev:scss',
     gulp.parallel(
+      'build:extension:js:deps:background', // bg-libs.js
+      'build:extension:js:deps:ui', // ui-libs.js
       'dev:extension:js',
       'dev:copy',
       'dev:reload'
